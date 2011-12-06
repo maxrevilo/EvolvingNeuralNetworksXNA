@@ -1,0 +1,8 @@
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\Content\Circulo.xnb
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\Content\Font.xnb
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\EvolvingNeuralNetworksXNA.exe
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\EvolvingNeuralNetworksXNA.pdb
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\EvolvingNeuralNetworksXNA.exe
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\EvolvingNeuralNetworksXNA.pdb
