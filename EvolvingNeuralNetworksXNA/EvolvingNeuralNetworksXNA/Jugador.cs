@@ -80,7 +80,7 @@ namespace EvolvingNeuralNetworksXNA
 
 
             moviendose = false;
-            direccion = 0.5f;
+            direccion = 0f;
         }
 
         override public void Update(GameTime gameTime)
