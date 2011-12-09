@@ -52,7 +52,7 @@ namespace EvolvingNeuralNetworksXNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
-        Random rnd;
+        static Random rnd;
         KeyboardState kbsOld;
 
         //Arreglo de jugadores:
