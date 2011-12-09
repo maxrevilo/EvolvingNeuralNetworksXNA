@@ -11,18 +11,23 @@ using Microsoft.Xna.Framework.Media;
 using AForge.Genetic;
 using AForge.Neuro;
 
+
 namespace EvolvingNeuralNetworksXNA
 {
     public class IA : GameComponent
     {
         //Topologia de las redes
         private const int HIDDEN_UNITS = 10;
-        private const int OUTPUT_UNITS = 2;
+        private const int OUTPUT_UNITS = 3;
         private const int INPUT_UNITS = 3;
+
 
         //Diferencial de angulo que se aplicara a la direccion
         //del jugador, de acuerdo a la salida de la red neuronal
-        private const float ANGLE_DIFF = 0.01f;
+        private const float ANGLE_DIFF = 0.02f;
+
+        //Si la salida de la red es mayor que esta constante, el jugador avanza. Caso contrario se detiene.
+        private const float MOVEMENT_THRESHOLD = 0.5f;
 
         private Comida[] comidas;
         private Jugador[] jugadores;
@@ -38,19 +43,18 @@ namespace EvolvingNeuralNetworksXNA
             this.comidas = comidas;
             this.jugadores = jugadores;
             rnd = new Random();
+            redes = new ActivationNetwork[jugadores.Length];
+            for (int i = 0; i < redes.Length; i++)
+            {
+                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS, OUTPUT_UNITS);                
+            }
+            inputVector = new double[INPUT_UNITS];
+            outputVector = new double[OUTPUT_UNITS];
         }
+
 
         public override void Initialize()
         {
-            redes = new ActivationNetwork[jugadores.Length];
-            inputVector = new double[INPUT_UNITS];
-            outputVector = new double[OUTPUT_UNITS];
-
-            for (int i = 0; i < redes.Length; i++)
-            {
-                redes[i] = new ActivationNetwork(new SigmoidFunction(0.1), INPUT_UNITS, HIDDEN_UNITS, OUTPUT_UNITS);
-                redes[i].Randomize();
-            }
             Enabled = true;
             base.Initialize();
         }
@@ -59,9 +63,9 @@ namespace EvolvingNeuralNetworksXNA
         {
             for (int i = 0; i < jugadores.Length; i++)
             {
-                inputVector[0] = rnd.NextDouble() - 0.5; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[1] = rnd.NextDouble() - 0.5; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[2] = rnd.NextDouble() - 0.5; //TODO: el inputVector debe ser funcion de cada Jugador.                
+                inputVector[0] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
+                inputVector[1] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
+                inputVector[2] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.                
                 outputVector = redes[i].Compute(inputVector);
                 applyNetworkOutput(outputVector, jugadores[i]);
             }
@@ -76,11 +80,17 @@ namespace EvolvingNeuralNetworksXNA
         /// <param name="j">Jugador para el cual se quiere modificar su cinematica</param>
         private void applyNetworkOutput(double[] outputVector, Jugador j)
         {
-            //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica
+            //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica.
             float diffDireccionReal = ANGLE_DIFF;
+            //Cambiar la direccion de acuerdo a la salida de la red.
             if (outputVector[0] > outputVector[1])
                 diffDireccionReal *= -1;
             j.direccion += diffDireccionReal;
+            //Avanzar o detenerse de acuerdo a la salida de la red.
+            if (outputVector[2] > MOVEMENT_THRESHOLD)
+                j.moviendose = true;
+            else
+                j.moviendose = false;
         }
     }
 }
