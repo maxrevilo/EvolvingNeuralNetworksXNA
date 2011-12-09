@@ -157,8 +157,7 @@ namespace EvolvingNeuralNetworksXNA
                         if (jugador.Enabled) //Si esta vivo:
                         {
 
-                            //jugador.direccion += (float)(rnd.NextDouble() - 0.5f) / 10f; //BORRAR: esto lo controla la IA.
-
+                            //jugador.direccion += (float)(rnd.NextDouble() - 0.5f) / 10f; //BORRAR: esto lo controla la IA.                            
 
                             //Si el jugador entra en contacto con la comida:
                             if (jugador.probarContacto(comida))
