@@ -70,14 +70,16 @@ namespace EvolvingNeuralNetworksXNA
             get { return llenura; }
         }
 
-        public Jugador(Game game, float X, float Y, float tamano)
+        private WorldGame worldGame;
+
+        public Jugador(WorldGame game, float X, float Y, float tamano)
             : base(game, X, Y, tamano)
         {
             Vivo = true;
             llenura = LLENURA_POR_DEFECTO;
             tazaDeAmbruna = TAZA_DE_AMBRUNA_POR_DEFECTO;
             velocidad = VELOCIDAD_POR_DEFECTO;
-
+            worldGame = game;
 
             moviendose = false;
             direccion = 0f;
@@ -107,6 +109,17 @@ namespace EvolvingNeuralNetworksXNA
                 Vivo = false;
             }
 
+        }
+
+        /// <summary>
+        /// Controla al jugador dandole orden de avanzar y/o jirar.
+        /// </summary>
+        /// <param name="Avanzar">Indica si el jugador se va a mover o no</param>
+        /// <param name="sumarAngulo">Le suma este valor a la direccion del jugador</param>
+        public void controlar(bool Avanzar, float sumarAngulo)
+        {
+            moviendose = Avanzar;
+            direccion += sumarAngulo;
         }
 
         override public void Draw(GameTime gameTime)

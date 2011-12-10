@@ -40,7 +40,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Rectangulo que define las dimensiones del escenario
         /// </summary>
-        Rectangle ESCENARIO = new Rectangle(0, 0, 600, 600);
+        public Rectangle ESCENARIO = new Rectangle(0, 0, 600, 600);
         /** 
          * CONSTANTES.
          */
@@ -56,10 +56,10 @@ namespace EvolvingNeuralNetworksXNA
         KeyboardState kbsOld;
 
         //Arreglo de jugadores:
-        Jugador[] jugadores;
+        public Jugador[] jugadores;
 
         //Arreglo de comida:
-        Comida[] comidas;
+        public Comida[] comidas;
 
         //Clase controladora de la IA:
         IA ia;

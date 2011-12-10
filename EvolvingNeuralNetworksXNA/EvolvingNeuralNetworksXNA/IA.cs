@@ -85,12 +85,9 @@ namespace EvolvingNeuralNetworksXNA
             //Cambiar la direccion de acuerdo a la salida de la red.
             if (outputVector[0] > outputVector[1])
                 diffDireccionReal *= -1;
-            j.direccion += diffDireccionReal;
-            //Avanzar o detenerse de acuerdo a la salida de la red.
-            if (outputVector[2] > MOVEMENT_THRESHOLD)
-                j.moviendose = true;
-            else
-                j.moviendose = false;
+            
+            //Enviar las ordenes de la red Neural al jugador.
+            j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
         }
     }
 }
