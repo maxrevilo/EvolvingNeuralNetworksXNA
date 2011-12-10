@@ -22,3 +22,19 @@ C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\Ev
 C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Genetic.xml
 C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Math.xml
 C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Neuro.xml
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\Content\Circulo.xnb
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\Content\Font.xnb
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\EvolvingNeuralNetworksXNA.exe
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\EvolvingNeuralNetworksXNA.pdb
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.dll
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Genetic.dll
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Math.dll
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Neuro.dll
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.xml
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Genetic.xml
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Math.xml
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Debug\AForge.Neuro.xml
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\EvolvingNeuralNetworksXNA.exe
+C:\Users\Max\Documents\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Debug\EvolvingNeuralNetworksXNA.pdb
