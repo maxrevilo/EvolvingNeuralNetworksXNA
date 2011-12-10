@@ -54,7 +54,7 @@ namespace EvolvingNeuralNetworksXNA
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)
         {
-            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos necesarios. 
+            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos nec 
             this.jugadores = jugadores;
             this.comidas = comidas;
         }

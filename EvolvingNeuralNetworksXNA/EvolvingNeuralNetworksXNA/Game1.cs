@@ -188,12 +188,8 @@ namespace EvolvingNeuralNetworksXNA
 
 
                 //Si no hay jugadores vivos se inicia una nueva poblacion:
-                #region Nueva Poblacion:
-                if (!JugadorVivo)
-                {
-                    Initialize();
-                }
-                #endregion
+                if (!JugadorVivo) Initialize();
+
 
                 //Se le pasa el gameTime2 para que actualice todo en funcion de el.
                 base.Update(gameTime2);

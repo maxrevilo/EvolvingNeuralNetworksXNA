@@ -58,6 +58,8 @@ namespace EvolvingNeuralNetworksXNA
             set { vivo = value; Enabled = vivo; /*Visible = vivo;*/ }
         }
 
+        public GameTime nacimiento;
+        private GameTime ultimaActualizacion;
 
         //Parametro entre 0 y 1 que indica cuando lleno o muerto de hambre esta el jugador.
         private float llenura;
@@ -85,12 +87,18 @@ namespace EvolvingNeuralNetworksXNA
             moviendose = false;
             direccion = 0f;
 
+            nacimiento = null;
+
             antenas = new float[]{-45f, 45f};
         }
 
         override public void Update(GameTime gameTime)
         {
             float seg = (float) gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (nacimiento == null) nacimiento = gameTime;
+            ultimaActualizacion = gameTime;
+
 
             if (moviendose)
             {
@@ -157,6 +165,17 @@ namespace EvolvingNeuralNetworksXNA
             }
 
             return dist;
+        }
+
+        /// <summary>
+        /// Retorna el fitness del jugador en base a cuanto tiempo ha durado vivo.
+        /// </summary>
+        /// <returns>Segundos de vida.</returns>
+        float Fitness()
+        {
+            if (nacimiento == null) return float.MinValue;
+
+            return (float)(ultimaActualizacion.TotalGameTime - nacimiento.TotalGameTime).TotalSeconds;
         }
 
         override public void Draw(GameTime gameTime)
