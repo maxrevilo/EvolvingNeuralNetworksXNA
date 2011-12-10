@@ -37,19 +37,26 @@ namespace EvolvingNeuralNetworksXNA
 
         private static Random rnd; //TEMPORAL, solo para pruebas.
 
-        public IA(Game game, Comida[] comidas, Jugador[] jugadores)
+        public IA(Game game, int players)
             : base(game)
         {
-            this.comidas = comidas;
-            this.jugadores = jugadores;
+            this.comidas = null;
+            this.jugadores = null;
             rnd = new Random();
-            redes = new ActivationNetwork[jugadores.Length];
+            redes = new ActivationNetwork[players];
             for (int i = 0; i < redes.Length; i++)
             {
                 redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS, OUTPUT_UNITS);                
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
+        }
+
+        public void Generation(Jugador[] jugadores, Comida[] comidas)
+        {
+            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos necesarios. 
+            this.jugadores = jugadores;
+            this.comidas = comidas;
         }
 
 
