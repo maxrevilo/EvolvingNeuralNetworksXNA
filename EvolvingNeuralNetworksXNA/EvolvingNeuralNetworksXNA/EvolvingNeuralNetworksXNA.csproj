@@ -119,7 +119,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChromosomeNetworkMapper.cs" />
     <Compile Include="Comida.cs" />
+    <Compile Include="FitnessFunction.cs" />
+    <Compile Include="gameChromosome.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="IA.cs" />
     <Compile Include="Jugador.cs" />

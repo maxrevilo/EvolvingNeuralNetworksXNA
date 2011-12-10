@@ -17,10 +17,10 @@ namespace EvolvingNeuralNetworksXNA
     public class IA : GameComponent
     {
         //Topologia de las redes
-        private const int HIDDEN_UNITS = 10;
+        private const int HIDDEN_UNITS0 = 10;
+        private const int HIDDEN_UNITS1 = 10;
         private const int OUTPUT_UNITS = 3;
         private const int INPUT_UNITS = 3;
-
 
         //Diferencial de angulo que se aplicara a la direccion
         //del jugador, de acuerdo a la salida de la red neuronal
@@ -34,22 +34,35 @@ namespace EvolvingNeuralNetworksXNA
         private ActivationNetwork[] redes;
         private double[] inputVector;
         private double[] outputVector;
+        private Population poblacion;
+        private IFitnessFunction fitnessFunction;
+        private IChromosome padre;
+        private 
+
 
         private static Random rnd; //TEMPORAL, solo para pruebas.
 
-        public IA(Game game, Comida[] comidas, Jugador[] jugadores)
+        public IA(Game game, int players)
             : base(game)
         {
-            this.comidas = comidas;
-            this.jugadores = jugadores;
+            this.comidas = null;
+            this.jugadores = null;
             rnd = new Random();
-            redes = new ActivationNetwork[jugadores.Length];
+            redes = new ActivationNetwork[players];
             for (int i = 0; i < redes.Length; i++)
             {
-                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS, OUTPUT_UNITS);                
+                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS0, HIDDEN_UNITS1, OUTPUT_UNITS);                
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
+            poblacion = new Population(5, padre, fitnessFunction, selectionMethodMethod);
+        }
+
+        public void Generation(Jugador[] jugadores, Comida[] comidas)
+        {
+            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos nec 
+            this.jugadores = jugadores;
+            this.comidas = comidas;
         }
 
 
@@ -63,9 +76,9 @@ namespace EvolvingNeuralNetworksXNA
         {
             for (int i = 0; i < jugadores.Length; i++)
             {
-                inputVector[0] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[1] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[2] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.                
+                inputVector[0] = jugadores[i].antenaInfo(0);
+                inputVector[1] = jugadores[i].antenaInfo(1);
+                inputVector[2] = jugadores[i].Llenura;               
                 outputVector = redes[i].Compute(inputVector);
                 applyNetworkOutput(outputVector, jugadores[i]);
             }
@@ -85,12 +98,9 @@ namespace EvolvingNeuralNetworksXNA
             //Cambiar la direccion de acuerdo a la salida de la red.
             if (outputVector[0] > outputVector[1])
                 diffDireccionReal *= -1;
-            j.direccion += diffDireccionReal;
-            //Avanzar o detenerse de acuerdo a la salida de la red.
-            if (outputVector[2] > MOVEMENT_THRESHOLD)
-                j.moviendose = true;
-            else
-                j.moviendose = false;
+            
+            //Enviar las ordenes de la red Neural al jugador.
+            j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
         }
     }
 }

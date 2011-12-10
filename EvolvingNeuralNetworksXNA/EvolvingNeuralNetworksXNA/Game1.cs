@@ -40,7 +40,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Rectangulo que define las dimensiones del escenario
         /// </summary>
-        Rectangle ESCENARIO = new Rectangle(0, 0, 600, 600);
+        public Rectangle ESCENARIO = new Rectangle(0, 0, 600, 600);
         /** 
          * CONSTANTES.
          */
@@ -56,16 +56,18 @@ namespace EvolvingNeuralNetworksXNA
         KeyboardState kbsOld;
 
         //Arreglo de jugadores:
-        Jugador[] jugadores;
+        public Jugador[] jugadores;
 
         //Arreglo de comida:
-        Comida[] comidas;
+        public Comida[] comidas;
+
+        public int generacion;
 
         //Clase controladora de la IA:
         IA ia;
         
         /// <summary>
-        /// Indica cuantos ciclos de simulaicon se ejecutan por actualizacion, la cual
+        /// Indica cuantos ciclos de simulacion se ejecutan por actualizacion, la cual
         /// generalmente ocurre 60 veces por segundo.
         /// </summary>
         public int ciclosPorActualizacion;
@@ -74,28 +76,43 @@ namespace EvolvingNeuralNetworksXNA
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-        }
 
-        protected override void Initialize()
-        {
+
             //Tamaño de la ventana:
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = ESCENARIO.Width;
             graphics.PreferredBackBufferHeight = ESCENARIO.Height;
             graphics.ApplyChanges();
 
+            jugadores = null;
+            comidas = null;
+
+            //Inicializando la IA:
+            ia = new IA(this, JUGADORES);
+            ia.Initialize();
+            Components.Add(ia);
+
+            generacion = 0;
+            ciclosPorActualizacion = 1;
+        }
+
+        protected override void Initialize()
+        {
+            if (jugadores != null)  foreach (Jugador j in jugadores) Components.Remove(j);
+            if (comidas   != null)  foreach (Comida  c in comidas  ) Components.Remove(c);
 
 
+            //Al forzar el recolector de basura no importa hacer New aqui:
             rnd = new Random();
             jugadores = new Jugador[JUGADORES];
-            comidas   = new Comida[rnd.Next(COMIDA_MIN, COMIDA_MAX)];
+            comidas = new Comida[rnd.Next(COMIDA_MIN, COMIDA_MAX)];
 
             //Inicializando los jugadores:
             for (int i = 0; i < jugadores.Length; i++)
             {
                 jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
                 Components.Add(jugadores[i]); //Con esto se grafican y actualizan automaticamente.
-                
+
                 //jugadores[i].moviendose = true; //Esto se puede quitar, pues la IA controlará este parametro.
             }
 
@@ -106,15 +123,14 @@ namespace EvolvingNeuralNetworksXNA
                 Components.Add(comidas[i]);
             }
 
-            //Inicializando la IA:
-            ia = new IA(this, comidas, jugadores);
-            ia.Initialize();
-            Components.Add(ia);
-            
 
-            ciclosPorActualizacion = 1;
+            ia.Generation(jugadores, comidas);
+            generacion++;
 
             base.Initialize();
+
+            //Se fuerza el recolector de basura:
+            GC.Collect();
         }
         
         /**
@@ -149,16 +165,17 @@ namespace EvolvingNeuralNetworksXNA
                 //Aqui va toda la actualizacion de la simulacion:
 
 
-                //Se berifica para cada jugador si este ha tocado comida:
+                bool JugadorVivo = false;
+
+                #region colision con comidas:
+                //Se verifica para cada jugador si este ha tocado comida:
                 foreach (Jugador jugador in jugadores)
                 {
                     foreach (Comida comida in comidas)
                     {
                         if (jugador.Enabled) //Si esta vivo:
                         {
-
-                            //jugador.direccion += (float)(rnd.NextDouble() - 0.5f) / 10f; //BORRAR: esto lo controla la IA.
-
+                            JugadorVivo = true;
                             //Si el jugador entra en contacto con la comida:
                             if (jugador.probarContacto(comida))
                             {
@@ -167,11 +184,15 @@ namespace EvolvingNeuralNetworksXNA
                         }
                     }
                 }
+                #endregion
+
+
+                //Si no hay jugadores vivos se inicia una nueva poblacion:
+                if (!JugadorVivo) Initialize();
+
 
                 //Se le pasa el gameTime2 para que actualice todo en funcion de el.
                 base.Update(gameTime2);
-
-
 
             }
         }
@@ -205,7 +226,7 @@ namespace EvolvingNeuralNetworksXNA
 
             //Se dibuja el HUD:
             Graphics.ToDraw(font, "Iteraciones: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
-
+            Graphics.ToDraw(font, "Generacion: " + generacion, new Vector2(10, 30), Color.White);
 
         }
     }
