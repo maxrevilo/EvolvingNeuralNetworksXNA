@@ -63,9 +63,9 @@ namespace EvolvingNeuralNetworksXNA
         {
             for (int i = 0; i < jugadores.Length; i++)
             {
-                inputVector[0] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[1] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.
-                inputVector[2] = 4 * rnd.NextDouble() - 3; //TODO: el inputVector debe ser funcion de cada Jugador.                
+                inputVector[0] = jugadores[i].antenaInfo(0);
+                inputVector[1] = jugadores[i].antenaInfo(1);
+                inputVector[2] = jugadores[i].Llenura;               
                 outputVector = redes[i].Compute(inputVector);
                 applyNetworkOutput(outputVector, jugadores[i]);
             }
