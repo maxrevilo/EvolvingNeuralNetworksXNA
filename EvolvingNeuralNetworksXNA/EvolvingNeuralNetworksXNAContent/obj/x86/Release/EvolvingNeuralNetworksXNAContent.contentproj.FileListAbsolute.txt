@@ -1,1 +1,2 @@
 C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNAContent\obj\x86\Release\ResolveAssemblyReference.cache
+E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNAContent\obj\x86\Release\ResolveAssemblyReference.cache

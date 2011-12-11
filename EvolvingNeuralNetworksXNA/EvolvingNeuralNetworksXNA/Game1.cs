@@ -30,7 +30,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Cantidad maxima y minima de comida en el escenario.
         /// </summary>
-        public static int COMIDA_MAX = 400, COMIDA_MIN = 300;
+        public static int COMIDA_MAX = 40, COMIDA_MIN = 20;
 
         /// <summary>
         /// Tamaño de las particulas de comida
@@ -84,11 +84,12 @@ namespace EvolvingNeuralNetworksXNA
 
             //Tamaño de la ventana:
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferHeight = 400;
             graphics.ApplyChanges();
 
             ESCALA = Math.Min(GraphicsDevice.Viewport.Width / (float)ESCENARIO.Width, GraphicsDevice.Viewport.Height / (float)ESCENARIO.Height);
+
 
             Dibujar = true;
 
@@ -118,7 +119,7 @@ namespace EvolvingNeuralNetworksXNA
             //Inicializando los jugadores:
             for (int i = 0; i < jugadores.Length; i++)
             {
-                jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
+                jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Center.X, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
                 Components.Add(jugadores[i]); //Con esto se grafican y actualizan automaticamente.
 
                 //jugadores[i].moviendose = true; //Esto se puede quitar, pues la IA controlará este parametro.
@@ -127,7 +128,7 @@ namespace EvolvingNeuralNetworksXNA
             //Inicializando la comida:
             for (int i = 0; i < comidas.Length; i++)
             {
-                comidas[i] = new Comida(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_COMIDA);
+                comidas[i] = new Comida(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Center.X), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_COMIDA);
                 Components.Add(comidas[i]);
             }
 
@@ -242,6 +243,8 @@ namespace EvolvingNeuralNetworksXNA
                 //Se dibuja el HUD:
                 Graphics.ToDraw(font, "Iteraciones: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
                 Graphics.ToDraw(font, "Generacion: " + generacion, new Vector2(10, 30), Color.White);
+                Graphics.ToDraw(font, "Fitness Prom: " + ia.fitnessAvg(), new Vector2(10, 50), Color.White);
+                Graphics.ToDraw(font, "Mejor Fitness: " + ia.fitnessMax(), new Vector2(10, 70), Color.White);
             }
 
         }

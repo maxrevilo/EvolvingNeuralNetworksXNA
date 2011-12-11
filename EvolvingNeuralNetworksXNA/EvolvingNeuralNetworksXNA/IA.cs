@@ -19,8 +19,8 @@ namespace EvolvingNeuralNetworksXNA
     public class IA : GameComponent
     {
         //Topologia de las redes
-        private const int HIDDEN_UNITS0 = 10;
-        private const int HIDDEN_UNITS1 = 10;
+        private const int HIDDEN_UNITS0 = 4;
+        private const int HIDDEN_UNITS1 = 4;
         private const int OUTPUT_UNITS = 3;
         private const int INPUT_UNITS = 3;
         private int numWeights;
@@ -56,7 +56,7 @@ namespace EvolvingNeuralNetworksXNA
             redes = new ActivationNetwork[players];
             for (int i = 0; i < redes.Length; i++)
             {
-                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS0, HIDDEN_UNITS1, OUTPUT_UNITS);
+                redes[i] = new ActivationNetwork(new SigmoidFunction(400), INPUT_UNITS, HIDDEN_UNITS0, HIDDEN_UNITS1, OUTPUT_UNITS);
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
@@ -67,10 +67,15 @@ namespace EvolvingNeuralNetworksXNA
             mutationAdditionGenerator = new UniformGenerator(new Range(-3f, 3f));
             mutationMultiplierGenerator = new UniformGenerator(new Range(-2f, 2f));
             fitnessFunction = new GameFitnessFunction();
-            selectionMethod = new RouletteWheelSelection();
+            selectionMethod = new EliteSelection();
             padre = new gameChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, numWeights);
             poblacion = new Population(WorldGame.JUGADORES, padre, fitnessFunction, selectionMethod);
+            
         }
+
+        //Estas funciones no sirve todavia:
+        public float fitnessAvg() { return (float) poblacion.FitnessAvg; }
+        public float fitnessMax() { return (float) poblacion.FitnessMax; }
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)
         {
@@ -104,13 +109,15 @@ namespace EvolvingNeuralNetworksXNA
 
         public override void Update(GameTime gameTime)
         {
+            float a1, a2;
             for (int i = 0; i < jugadores.Length; i++)
             {
                 if (jugadores[i].Enabled)
                 {
-                    inputVector[0] = jugadores[i].antenaInfo(0);
-                    inputVector[1] = jugadores[i].antenaInfo(1);
-                    inputVector[2] = jugadores[i].Llenura;
+                    a1 = jugadores[i].antenaInfo(0); a2 = jugadores[i].antenaInfo(1);
+                    inputVector[0] = 10f * (a1-a2); //Se le pasa la informacion de diferencia de distancias
+                    inputVector[1] = (a1+a2) / 10f; //un especie de promedio de distancias
+                    inputVector[2] = 100f * jugadores[i].Llenura - 50f; //La llenura que puede ser + o -
                     outputVector = redes[i].Compute(inputVector);
                     applyNetworkOutput(outputVector, jugadores[i]);
                 }
@@ -118,7 +125,7 @@ namespace EvolvingNeuralNetworksXNA
             base.Update(gameTime);
         }
 
-        int i = 0;
+        public double maxExit = 0;
 
         /// <summary>
         /// Aplica la salida de la red neuronal a cada jugador,
@@ -131,7 +138,7 @@ namespace EvolvingNeuralNetworksXNA
             //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica.
             float diffDireccionReal = ANGLE_DIFF;
             //Cambiar la direccion de acuerdo a la salida de la red.
-            if (0.1 < Math.Abs(outputVector[1] - outputVector[0])) //Si hay duda no se voltea.
+            if (0.01 < Math.Abs(outputVector[1] - outputVector[0])) //Si hay duda no se voltea.
             {
                 if (outputVector[0] > outputVector[1]) diffDireccionReal *= -1f;
             }
@@ -139,10 +146,8 @@ namespace EvolvingNeuralNetworksXNA
             {
                 diffDireccionReal = 0f;
             }
-                
 
-            //if(i++ % 100 == 0) Console.WriteLine("Neural Output: {0} {1} {2}", outputVector[0], outputVector[1], outputVector[2]);
-
+            maxExit = Math.Max(maxExit, outputVector[2]);
             //Enviar las ordenes de la red Neural al jugador.
             j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
         }

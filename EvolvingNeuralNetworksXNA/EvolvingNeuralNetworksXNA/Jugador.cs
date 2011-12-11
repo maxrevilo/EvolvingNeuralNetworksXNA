@@ -16,7 +16,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// La llenura con la que se crean los jugadores.
         /// </summary>
-        public static float LLENURA_POR_DEFECTO = 0.5f;
+        public static float LLENURA_POR_DEFECTO = 0.8f;
         
         /// <summary>
         /// La taza de ambruna con la que se crean los jugadores.
@@ -58,8 +58,7 @@ namespace EvolvingNeuralNetworksXNA
             set { vivo = value; Enabled = vivo; /*Visible = vivo;*/ }
         }
 
-        public GameTime nacimiento;
-        private GameTime ultimaActualizacion;
+        private int edad;
 
         //Parametro entre 0 y 1 que indica cuando lleno o muerto de hambre esta el jugador.
         private float llenura;
@@ -88,7 +87,7 @@ namespace EvolvingNeuralNetworksXNA
             moviendose = false;
             direccion = 0f;
 
-            nacimiento = null;
+            edad = -1;
 
             antenasAng = new float[]{-45f, 45f};
 
@@ -103,9 +102,8 @@ namespace EvolvingNeuralNetworksXNA
         {
             float seg = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (nacimiento == null) nacimiento = gameTime;
-
-            if(Vivo) ultimaActualizacion = gameTime;
+            if (edad < 0) edad = 0;
+            else if (Vivo) edad++;
 
             alimentar(-tazaDeAmbruna * seg);
 
@@ -182,9 +180,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <returns>Segundos de vida.</returns>
         public float Fitness()
         {
-            if (nacimiento == null) return float.MinValue;
-
-            return (float)(ultimaActualizacion.TotalGameTime - nacimiento.TotalGameTime).TotalSeconds;
+            return (float)edad;
         }
 
         override public void Draw(GameTime gameTime)

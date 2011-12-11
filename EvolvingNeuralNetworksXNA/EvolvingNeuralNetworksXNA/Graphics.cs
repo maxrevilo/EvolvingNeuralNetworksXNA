@@ -64,7 +64,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <param name="angulo"> Angulo en que se rotara</param>
         public static void ToDrawScaled(Texture2D t, Rectangle rect, Color c, float angulo)
         {
-            rect.X      = (int)((float)rect.X * WorldGame.ESCALA);
+            rect.X      = (int)((float)rect.X * (WorldGame.ESCALA));
             rect.Y      = (int)((float)rect.Y * WorldGame.ESCALA);
             rect.Width  = (int)((float)rect.Width * WorldGame.ESCALA);
             rect.Height = (int)((float)rect.Height * WorldGame.ESCALA);
