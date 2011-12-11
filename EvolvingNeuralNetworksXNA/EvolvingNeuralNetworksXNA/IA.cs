@@ -42,10 +42,10 @@ namespace EvolvingNeuralNetworksXNA
         private Population poblacion;
         private IFitnessFunction fitnessFunction;
         private IChromosome padre;
-        private IRandomNumberGenerator chromosomeGenerator;
-        private IRandomNumberGenerator mutationMultiplierGenerator;
-        private IRandomNumberGenerator mutationAdditionGenerator;
-        private ISelectionMethod selectionMethod;        
+        private static IRandomNumberGenerator chromosomeGenerator;
+        private static IRandomNumberGenerator mutationMultiplierGenerator;
+        private static IRandomNumberGenerator mutationAdditionGenerator;
+        private ISelectionMethod selectionMethod;
 
         public IA(Game game, int players)
             : base(game)
@@ -56,7 +56,7 @@ namespace EvolvingNeuralNetworksXNA
             redes = new ActivationNetwork[players];
             for (int i = 0; i < redes.Length; i++)
             {
-                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS0, HIDDEN_UNITS1, OUTPUT_UNITS);                
+                redes[i] = new ActivationNetwork(new SigmoidFunction(0.5), INPUT_UNITS, HIDDEN_UNITS0, HIDDEN_UNITS1, OUTPUT_UNITS);
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
@@ -74,7 +74,21 @@ namespace EvolvingNeuralNetworksXNA
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)
         {
-            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos nec 
+            //Actualizar los fitness de la poblacion actual y correr una epoca evolutiva en la poblacion
+            if (this.comidas != null && this.jugadores != null) //Generacion posterior a la primera
+            {
+                for (int i = 0; i < jugadores.Length; i++)
+                    ((gameChromosome)poblacion[i]).chromoFitness = jugadores[i].Fitness();
+
+                poblacion.RunEpoch();
+            }
+
+            //Transformar la poblacion actual a redes neuronales controladoras            
+            for (int i = 0; i < poblacion.Size; i++)
+            {
+                ChromosomeNetworkMapper.ChromosomeToNetwork((gameChromosome)poblacion[i], redes[i]);
+            }
+            //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos necesarios
             this.jugadores = jugadores;
             this.comidas = comidas;
         }
@@ -92,7 +106,7 @@ namespace EvolvingNeuralNetworksXNA
             {
                 inputVector[0] = jugadores[i].antenaInfo(0);
                 inputVector[1] = jugadores[i].antenaInfo(1);
-                inputVector[2] = jugadores[i].Llenura;               
+                inputVector[2] = jugadores[i].Llenura;
                 outputVector = redes[i].Compute(inputVector);
                 applyNetworkOutput(outputVector, jugadores[i]);
             }
@@ -112,7 +126,7 @@ namespace EvolvingNeuralNetworksXNA
             //Cambiar la direccion de acuerdo a la salida de la red.
             if (outputVector[0] > outputVector[1])
                 diffDireccionReal *= -1;
-            
+
             //Enviar las ordenes de la red Neural al jugador.
             j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
         }

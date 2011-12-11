@@ -171,7 +171,7 @@ namespace EvolvingNeuralNetworksXNA
         /// Retorna el fitness del jugador en base a cuanto tiempo ha durado vivo.
         /// </summary>
         /// <returns>Segundos de vida.</returns>
-        float Fitness()
+        public float Fitness()
         {
             if (nacimiento == null) return float.MinValue;
 
