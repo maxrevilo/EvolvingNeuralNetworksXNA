@@ -67,9 +67,9 @@ namespace EvolvingNeuralNetworksXNA
             mutationAdditionGenerator = new UniformGenerator(new Range(-3f, 3f));
             mutationMultiplierGenerator = new UniformGenerator(new Range(-2f, 2f));
             fitnessFunction = new GameFitnessFunction();
-            selectionMethod = new RankSelection();
+            selectionMethod = new RouletteWheelSelection();
             padre = new gameChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, numWeights);
-            poblacion = new Population(5, padre, fitnessFunction, selectionMethod);
+            poblacion = new Population(WorldGame.JUGADORES, padre, fitnessFunction, selectionMethod);
         }
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)
@@ -106,28 +106,42 @@ namespace EvolvingNeuralNetworksXNA
         {
             for (int i = 0; i < jugadores.Length; i++)
             {
-                inputVector[0] = jugadores[i].antenaInfo(0);
-                inputVector[1] = jugadores[i].antenaInfo(1);
-                inputVector[2] = jugadores[i].Llenura;
-                outputVector = redes[i].Compute(inputVector);
-                applyNetworkOutput(outputVector, jugadores[i]);
+                if (jugadores[i].Enabled)
+                {
+                    inputVector[0] = jugadores[i].antenaInfo(0);
+                    inputVector[1] = jugadores[i].antenaInfo(1);
+                    inputVector[2] = jugadores[i].Llenura;
+                    outputVector = redes[i].Compute(inputVector);
+                    applyNetworkOutput(outputVector, jugadores[i]);
+                }
             }
             base.Update(gameTime);
         }
+
+        int i = 0;
 
         /// <summary>
         /// Aplica la salida de la red neuronal a cada jugador,
         /// modificando la direccion en la cual debe moverse.
         /// </summary>
         /// <param name="outputVector">Salida de la red neuronal que controla al jugador</param>
-        /// <param name="j">Jugador para el cual se quiere modificar su cinematica</param>
+        /// <param name="j">Jugador para el cual se quiere modificar su cinebmatica</param>
         private void applyNetworkOutput(double[] outputVector, Jugador j)
         {
             //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica.
             float diffDireccionReal = ANGLE_DIFF;
             //Cambiar la direccion de acuerdo a la salida de la red.
-            if (outputVector[0] > outputVector[1])
-                diffDireccionReal *= -1;
+            if (0.1 < Math.Abs(outputVector[1] - outputVector[0])) //Si hay duda no se voltea.
+            {
+                if (outputVector[0] > outputVector[1]) diffDireccionReal *= -1f;
+            }
+            else
+            {
+                diffDireccionReal = 0f;
+            }
+                
+
+            //if(i++ % 100 == 0) Console.WriteLine("Neural Output: {0} {1} {2}", outputVector[0], outputVector[1], outputVector[2]);
 
             //Enviar las ordenes de la red Neural al jugador.
             j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);

@@ -17,7 +17,22 @@ namespace EvolvingNeuralNetworksXNA
     /// </summary>
     public class Posicionable : DrawableGameComponent
     {
-        public float X, Y, R;
+        private Vector2 pos;
+
+        public float X
+        {
+            get { return pos.X; }
+            set { pos.X = value; }
+        }
+
+        public float Y
+        {
+            get { return pos.Y; }
+            set { pos.Y = value; }
+        }
+
+        public float R;
+
 
         public Posicionable(Game game, float X, float Y, float R) 
             : base(game)
@@ -28,7 +43,12 @@ namespace EvolvingNeuralNetworksXNA
         }
 
         public Vector2 toVector2() {
-            return new Vector2(X, Y);
+            return pos;
+        }
+
+        public void toVector2(out Vector2 vec)
+        {
+            vec = pos;
         }
         
         /// <summary>
@@ -42,5 +62,6 @@ namespace EvolvingNeuralNetworksXNA
             float RR = otro.R + R;
             return dX*dX + dY*dY <= RR*RR;
         }
+
     }
 }

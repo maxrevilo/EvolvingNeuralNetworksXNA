@@ -20,27 +20,29 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Cantidad de jugadores:
         /// </summary>
-        const int JUGADORES = 5;
+        public static int JUGADORES = 50;
 
         /// <summary>
         /// Tamaño de los jugadores
         /// </summary>
-        const int TAMANO_JUGADOR = 10;
+        static int TAMANO_JUGADOR = 10;
 
         /// <summary>
         /// Cantidad maxima y minima de comida en el escenario.
         /// </summary>
-        const int COMIDA_MAX = 50, COMIDA_MIN = 40;
+        public static int COMIDA_MAX = 400, COMIDA_MIN = 300;
 
         /// <summary>
         /// Tamaño de las particulas de comida
         /// </summary>
-        const int TAMANO_COMIDA = 5;
+        static int TAMANO_COMIDA = 5;
 
         /// <summary>
         /// Rectangulo que define las dimensiones del escenario
         /// </summary>
-        public Rectangle ESCENARIO = new Rectangle(0, 0, 600, 600);
+        public static Rectangle ESCENARIO = new Rectangle(0, 0, 1200, 800);
+
+        public static float ESCALA;
         /** 
          * CONSTANTES.
          */
@@ -63,6 +65,8 @@ namespace EvolvingNeuralNetworksXNA
 
         public int generacion;
 
+        bool Dibujar;
+
         //Clase controladora de la IA:
         IA ia;
         
@@ -80,9 +84,13 @@ namespace EvolvingNeuralNetworksXNA
 
             //Tamaño de la ventana:
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = ESCENARIO.Width;
-            graphics.PreferredBackBufferHeight = ESCENARIO.Height;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
+
+            ESCALA = Math.Min(GraphicsDevice.Viewport.Width / (float)ESCENARIO.Width, GraphicsDevice.Viewport.Height / (float)ESCENARIO.Height);
+
+            Dibujar = true;
 
             jugadores = null;
             comidas = null;
@@ -210,23 +218,31 @@ namespace EvolvingNeuralNetworksXNA
                 ciclosPorActualizacion++;
             }
 
+            if (kbs.IsKeyDown(Keys.D) && kbsOld.IsKeyUp(Keys.D))
+            {
+                Dibujar = !Dibujar;
+            }
+
 
             kbsOld = kbs;
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            if (Dibujar)
+            {
+                GraphicsDevice.Clear(Color.Black);
 
-            //Esto simplemente dibuja todo lo que se halla puesto en el buffer de Graphics
-            Graphics.DrawNow();
+                //Esto simplemente dibuja todo lo que se halla puesto en el buffer de Graphics
+                Graphics.DrawNow();
 
-            //Aqui se llama a Draw en los objetos en Components automaticamente 
-            base.Draw(gameTime);
+                //Aqui se llama a Draw en los objetos en Components automaticamente 
+                base.Draw(gameTime);
 
-            //Se dibuja el HUD:
-            Graphics.ToDraw(font, "Iteraciones: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
-            Graphics.ToDraw(font, "Generacion: " + generacion, new Vector2(10, 30), Color.White);
+                //Se dibuja el HUD:
+                Graphics.ToDraw(font, "Iteraciones: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
+                Graphics.ToDraw(font, "Generacion: " + generacion, new Vector2(10, 30), Color.White);
+            }
 
         }
     }

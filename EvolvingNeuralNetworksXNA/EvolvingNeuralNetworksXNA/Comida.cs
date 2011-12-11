@@ -58,7 +58,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <param name="gameTime"></param>
         override public void Draw(GameTime gameTime)
         {
-            Graphics.ToDraw(Graphics.Pixel, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Pink);
+            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Pink, 0f);
         }
     }
 }

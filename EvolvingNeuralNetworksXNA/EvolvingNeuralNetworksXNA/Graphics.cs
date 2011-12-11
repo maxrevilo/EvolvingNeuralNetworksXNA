@@ -55,6 +55,23 @@ namespace EvolvingNeuralNetworksXNA
             instance.sb.Draw(t, rect2, null, c, angulo, new Vector2(t.Width/2, t.Height/2), SpriteEffects.None, 0f);
         }
 
+        /// <summary>
+        /// Dibuja una textura en pantalla rotandolo
+        /// </summary>
+        /// <param name="t">Textura a dibujar</param>
+        /// <param name="rect">Area en el que se dibujara</param>
+        /// <param name="c">Tinta para la textura (Blanco no la cambia)</param>
+        /// <param name="angulo"> Angulo en que se rotara</param>
+        public static void ToDrawScaled(Texture2D t, Rectangle rect, Color c, float angulo)
+        {
+            rect.X      = (int)((float)rect.X * WorldGame.ESCALA);
+            rect.Y      = (int)((float)rect.Y * WorldGame.ESCALA);
+            rect.Width  = (int)((float)rect.Width * WorldGame.ESCALA);
+            rect.Height = (int)((float)rect.Height * WorldGame.ESCALA);
+
+            ToDraw(t, rect, c, angulo);
+        }
+
 
         /// <summary>
         /// Dibuja un texto en pantalla

@@ -73,7 +73,8 @@ namespace EvolvingNeuralNetworksXNA
 
         private WorldGame worldGame;
 
-        private float[] antenas;
+        private float[] antenasAng;
+        private Vector2[] antenasPos;
 
         public Jugador(WorldGame game, float X, float Y, float tamano)
             : base(game, X, Y, tamano)
@@ -89,7 +90,13 @@ namespace EvolvingNeuralNetworksXNA
 
             nacimiento = null;
 
-            antenas = new float[]{-45f, 45f};
+            antenasAng = new float[]{-45f, 45f};
+
+            antenasPos = new Vector2[antenasAng.Length];
+            for (int i = 0; i < antenasPos.Length; i++)
+            {
+                antenasPos[i] = antenaPosicion(i);
+            }
         }
 
         override public void Update(GameTime gameTime)
@@ -143,7 +150,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <returns>Posicion global</returns>
         public Vector2 antenaPosicion(int antena)
         {
-            float   ang    = MathHelper.ToRadians(antenas[antena]) + direccion;
+            float   ang    = MathHelper.ToRadians(antenasAng[antena]) + direccion;
             Vector2 antPos = new Vector2((float)Math.Cos(ang), (float)Math.Sin(ang)) * 1.6f * this.R;
             return  antPos + toVector2();
         }
@@ -156,12 +163,14 @@ namespace EvolvingNeuralNetworksXNA
         public float antenaInfo(int antena)
         {
             float dist = float.MaxValue;
-            Vector2 posicion = antenaPosicion(antena);
+            Vector2 posicion = antenasPos[antena];
+            Vector2 comPos;
 
 
             foreach (Comida comida in worldGame.comidas)
             {
-                dist = Math.Min(dist, Vector2.Distance(comida.toVector2(), posicion));
+                comida.toVector2(out comPos);
+                dist = Math.Min(dist, Vector2.Distance(comPos, posicion));
             }
 
             return dist;
@@ -183,10 +192,10 @@ namespace EvolvingNeuralNetworksXNA
             Vector2[] ants = new Vector2[] { antenaPosicion(0), antenaPosicion(1) };
             float aR = R / 4f;
 
-            Graphics.ToDraw(Graphics.Circulo, new Rectangle((int)(ants[0].X - aR), (int)(ants[0].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
-            Graphics.ToDraw(Graphics.Circulo, new Rectangle((int)(ants[1].X - aR), (int)(ants[1].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
+            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[0].X - aR), (int)(ants[0].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
+            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[1].X - aR), (int)(ants[1].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
 
-            Graphics.ToDraw(Graphics.Circulo, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Lerp(Color.Red, Color.Green, llenura), direccion);
+            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Lerp(Color.Red, Color.Green, llenura), direccion);
         }
     }
 }
