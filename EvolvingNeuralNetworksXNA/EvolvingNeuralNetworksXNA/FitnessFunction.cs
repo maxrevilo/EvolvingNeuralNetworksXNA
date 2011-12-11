@@ -10,7 +10,7 @@ namespace EvolvingNeuralNetworksXNA
     {
         public double Evaluate(IChromosome chromosome)
         {
-            return ((gameChromosome)chromosome).Fitness;
+            return ((gameChromosome)chromosome).chromoFitness;
         }
     }
 }
