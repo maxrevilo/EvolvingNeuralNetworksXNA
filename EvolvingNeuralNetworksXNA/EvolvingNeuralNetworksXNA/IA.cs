@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using AForge.Genetic;
 using AForge.Neuro;
+using AForge.Math.Random;
+using AForge;
 
 
 namespace EvolvingNeuralNetworksXNA
@@ -21,6 +23,7 @@ namespace EvolvingNeuralNetworksXNA
         private const int HIDDEN_UNITS1 = 10;
         private const int OUTPUT_UNITS = 3;
         private const int INPUT_UNITS = 3;
+        private int numWeights;
 
         //Diferencial de angulo que se aplicara a la direccion
         //del jugador, de acuerdo a la salida de la red neuronal
@@ -34,20 +37,22 @@ namespace EvolvingNeuralNetworksXNA
         private ActivationNetwork[] redes;
         private double[] inputVector;
         private double[] outputVector;
+
+        //Campos para la logica de evolucion
         private Population poblacion;
         private IFitnessFunction fitnessFunction;
         private IChromosome padre;
-        private 
-
-
-        private static Random rnd; //TEMPORAL, solo para pruebas.
+        private IRandomNumberGenerator chromosomeGenerator;
+        private IRandomNumberGenerator mutationMultiplierGenerator;
+        private IRandomNumberGenerator mutationAdditionGenerator;
+        private ISelectionMethod selectionMethod;        
 
         public IA(Game game, int players)
             : base(game)
         {
             this.comidas = null;
             this.jugadores = null;
-            rnd = new Random();
+            this.numWeights = HIDDEN_UNITS0 * (INPUT_UNITS + 1) + HIDDEN_UNITS1 * (HIDDEN_UNITS0 + 1) + OUTPUT_UNITS * (HIDDEN_UNITS1 + 1);
             redes = new ActivationNetwork[players];
             for (int i = 0; i < redes.Length; i++)
             {
@@ -55,7 +60,16 @@ namespace EvolvingNeuralNetworksXNA
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
-            poblacion = new Population(5, padre, fitnessFunction, selectionMethodMethod);
+
+            //Se puede jugar con los parametros de los rangos para modificar la evolucion de las redes
+            //Tambien se puede modificar el metodo de seleccion.
+            chromosomeGenerator = new UniformGenerator(new Range(-1f, 1f));
+            mutationAdditionGenerator = new UniformGenerator(new Range(-3f, 3f));
+            mutationMultiplierGenerator = new UniformGenerator(new Range(-2f, 2f));
+            fitnessFunction = new GameFitnessFunction();
+            selectionMethod = new RankSelection();
+            padre = new gameChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, numWeights);
+            poblacion = new Population(5, padre, fitnessFunction, selectionMethod);
         }
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)

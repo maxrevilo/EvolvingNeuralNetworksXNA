@@ -20,7 +20,7 @@ namespace EvolvingNeuralNetworksXNA
             throw new NotImplementedException();
         }
 
-        private void processWeights(ActivationNetwork network, DoubleArrayChromosome chromosome)
+        private static void processWeights(ActivationNetwork network, DoubleArrayChromosome chromosome)
         {
             throw new NotImplementedException();
         }
