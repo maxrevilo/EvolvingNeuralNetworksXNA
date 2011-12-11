@@ -78,16 +78,18 @@ namespace EvolvingNeuralNetworksXNA
             if (this.comidas != null && this.jugadores != null) //Generacion posterior a la primera
             {
                 for (int i = 0; i < jugadores.Length; i++)
-                    ((gameChromosome)poblacion[i]).chromoFitness = jugadores[i].Fitness();
+                    ((gameChromosome)poblacion[i]).chromoFitness = this.jugadores[i].Fitness();
 
                 poblacion.RunEpoch();
+
+                //Transformar la poblacion actual a redes neuronales controladoras            
+                for (int i = 0; i < poblacion.Size; i++)
+                {
+                    ChromosomeNetworkMapper.ChromosomeToNetwork((gameChromosome)poblacion[i], redes[i]);
+                }
             }
 
-            //Transformar la poblacion actual a redes neuronales controladoras            
-            for (int i = 0; i < poblacion.Size; i++)
-            {
-                ChromosomeNetworkMapper.ChromosomeToNetwork((gameChromosome)poblacion[i], redes[i]);
-            }
+            
             //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos necesarios
             this.jugadores = jugadores;
             this.comidas = comidas;

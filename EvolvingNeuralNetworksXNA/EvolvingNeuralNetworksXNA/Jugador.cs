@@ -97,13 +97,13 @@ namespace EvolvingNeuralNetworksXNA
             float seg = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
             if (nacimiento == null) nacimiento = gameTime;
-            ultimaActualizacion = gameTime;
 
+            if(Vivo) ultimaActualizacion = gameTime;
+
+            alimentar(-tazaDeAmbruna * seg);
 
             if (moviendose)
             {
-                alimentar(- tazaDeAmbruna * seg );
-
                 X += (float) Math.Cos(direccion) * velocidad * seg;
                 Y += (float) Math.Sin(direccion) * velocidad * seg;
             }
