@@ -31,7 +31,7 @@ namespace EvolvingNeuralNetworksXNA
         private const float ANGLE_DIFF = 0.35f;
 
         //Si la salida de la red es mayor que esta constante, el jugador avanza. Caso contrario se detiene.
-        private const float MOVEMENT_THRESHOLD = 0.5f;
+        private const float MOVEMENT_THRESHOLD = 0f;
 
         private Comida[] comidas;
         private Jugador[] jugadores;
@@ -150,7 +150,7 @@ namespace EvolvingNeuralNetworksXNA
         /// modificando la direccion en la cual debe moverse.
         /// </summary>
         /// <param name="outputVector">Salida de la red neuronal que controla al jugador</param>
-        /// <param name="j">Jugador para el cual se quiere modificar su cinebmatica</param>
+        /// <param name="j">Jugador para el cual se quiere modificar su cinematica</param>
         private void applyNetworkOutput(double[] outputVector, Jugador j)
         {
             //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica.

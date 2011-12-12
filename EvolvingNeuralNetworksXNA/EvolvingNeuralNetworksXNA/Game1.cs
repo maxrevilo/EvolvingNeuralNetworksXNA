@@ -182,8 +182,7 @@ namespace EvolvingNeuralNetworksXNA
                 {
                     if (jugador.Enabled) //Si esta vivo:
                     {
-                        JugadorVivo = true;
-                        //Console.WriteLine("Updated {0}", jugador.GetHashCode());
+                        JugadorVivo = true;                        
                         foreach (Comida comida in comidas)
                         {
                             //Si el jugador entra en contacto con la comida:
