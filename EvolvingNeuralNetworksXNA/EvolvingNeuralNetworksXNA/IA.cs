@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -19,15 +20,15 @@ namespace EvolvingNeuralNetworksXNA
     public class IA : GameComponent
     {
         //Topologia de las redes
-        private const int HIDDEN_UNITS0 = 4;
-        private const int HIDDEN_UNITS1 = 4;
+        private const int HIDDEN_UNITS0 = 6;
+        private const int HIDDEN_UNITS1 = 6;
         private const int OUTPUT_UNITS = 3;
         private const int INPUT_UNITS = 3;
         private int numWeights;
 
         //Diferencial de angulo que se aplicara a la direccion
         //del jugador, de acuerdo a la salida de la red neuronal
-        private const float ANGLE_DIFF = 0.02f;
+        private const float ANGLE_DIFF = 0.35f;
 
         //Si la salida de la red es mayor que esta constante, el jugador avanza. Caso contrario se detiene.
         private const float MOVEMENT_THRESHOLD = 0.5f;
@@ -37,6 +38,7 @@ namespace EvolvingNeuralNetworksXNA
         private ActivationNetwork[] redes;
         private double[] inputVector;
         private double[] outputVector;
+        private ManualResetEvent[] doneEvents;
 
         //Campos para la logica de evolucion
         private Population poblacion;
@@ -60,6 +62,9 @@ namespace EvolvingNeuralNetworksXNA
             }
             inputVector = new double[INPUT_UNITS];
             outputVector = new double[OUTPUT_UNITS];
+            doneEvents = new ManualResetEvent[players];
+            for (int i = 0; i < players; i++) doneEvents[i] = new ManualResetEvent(false);
+
 
             //Se puede jugar con los parametros de los rangos para modificar la evolucion de las redes
             //Tambien se puede modificar el metodo de seleccion.
@@ -107,23 +112,43 @@ namespace EvolvingNeuralNetworksXNA
             base.Initialize();
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
-            float a1, a2;
-            for (int i = 0; i < jugadores.Length; i++)
+            for (int j = 0; j < jugadores.Length; j++)
             {
-                if (jugadores[i].Vivo)
-                {
-                    //Console.WriteLine("IA Updated {0}", jugadores[i].GetHashCode());
-                    a1 = jugadores[i].antenaInfo(0); a2 = jugadores[i].antenaInfo(1);
-                    inputVector[0] = 10f * (a1-a2); //Se le pasa la informacion de diferencia de distancias
-                    inputVector[1] = (a1 + a2) / 10f; //un especie de promedio de distancias
-                    inputVector[2] = 100f * jugadores[i].Llenura - 50f; //La llenura que puede ser + o -
-                    outputVector = redes[i].Compute(inputVector);
-                    applyNetworkOutput(outputVector, jugadores[i]);
-                }
+                doneEvents[j].Reset();
+                ThreadPool.QueueUserWorkItem(ParrallelUpdate, new KeyValuePair<int, ManualResetEvent>(j, doneEvents[j]));
             }
+
+            WaitHandle.WaitAll(doneEvents);
+
             base.Update(gameTime);
+        }
+
+        private void ParrallelUpdate(object param)
+        {
+            Thread.Sleep(0);
+            KeyValuePair<int, ManualResetEvent> lim = (KeyValuePair<int, ManualResetEvent>)param;
+            int i = lim.Key;
+            ManualResetEvent e = lim.Value;
+
+            float a1, a2;
+            if (jugadores[i].Vivo)
+            {
+                a1 = jugadores[i].antenaInfo(0); 
+                a2 = jugadores[i].antenaInfo(1);
+
+                inputVector[0] = 10f * (a1 - a2); //Se le pasa la informacion de diferencia de distancias
+                inputVector[1] = (a1 + a2) / 10f; //un especie de promedio de distancias
+                inputVector[2] = 100f * jugadores[i].Llenura - 50f; //La llenura que puede ser + o -
+
+                outputVector = redes[i].Compute(inputVector);
+                applyNetworkOutput(outputVector, jugadores[i]);
+            }
+
+            e.Set();
         }
 
 
@@ -138,7 +163,7 @@ namespace EvolvingNeuralNetworksXNA
             //Preliminar, el codigo final esta sujeto a nuestra interpretacion de la salida y lo que esta modifica.
             float diffDireccionReal = ANGLE_DIFF;
             //Cambiar la direccion de acuerdo a la salida de la red.
-            if (0.01 < Math.Abs(outputVector[1] - outputVector[0])) //Si hay duda no se voltea.
+            if (0.05 < Math.Abs(outputVector[1] - outputVector[0])) //Si hay duda no se voltea.
             {
                 if (outputVector[0] > outputVector[1]) diffDireccionReal *= -1f;
             }

@@ -16,17 +16,17 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// La llenura con la que se crean los jugadores.
         /// </summary>
-        public static float LLENURA_POR_DEFECTO = 0.8f;
+        public static float LLENURA_POR_DEFECTO = 0.65f;
         
         /// <summary>
         /// La taza de ambruna con la que se crean los jugadores.
         /// </summary>
-        public static float TAZA_DE_AMBRUNA_POR_DEFECTO = 0.01f;
+        public static float TAZA_DE_AMBRUNA_POR_DEFECTO = 0.05f;
 
         /// <summary>
         /// La velocidad con la que se crean los jugadores.
         /// </summary>
-        public static float VELOCIDAD_POR_DEFECTO = 25f;
+        public static float VELOCIDAD_POR_DEFECTO = 400f;
 
         /// <summary>
         /// Indica si el jugador esta avanzando
@@ -98,7 +98,8 @@ namespace EvolvingNeuralNetworksXNA
             if (edad < 0) edad = 0;
             else if (Vivo) edad++;
 
-            alimentar(-tazaDeAmbruna * seg);
+
+            alimentar(-tazaDeAmbruna * seg * (moviendose ? 1.2f : 1f));
 
             if (moviendose)
             {
@@ -184,9 +185,12 @@ namespace EvolvingNeuralNetworksXNA
             Vector2[] ants = new Vector2[] { antenaPosicion(0), antenaPosicion(1) };
             float aR = R / 4f;
 
-            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[0].X - aR), (int)(ants[0].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
-            Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[1].X - aR), (int)(ants[1].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
-
+            if (Vivo)
+            {
+                Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[0].X - aR), (int)(ants[0].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
+                Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[1].X - aR), (int)(ants[1].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
+            }
+            
             Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Lerp(Color.Red, Color.Green, llenura), direccion);
         }
     }

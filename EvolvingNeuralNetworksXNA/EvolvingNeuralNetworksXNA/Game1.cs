@@ -30,7 +30,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Cantidad maxima y minima de comida en el escenario.
         /// </summary>
-        public static int COMIDA_MAX = 40, COMIDA_MIN = 20;
+        public static int COMIDA_MAX = 300, COMIDA_MIN = 100;
 
         /// <summary>
         /// Tamaño de las particulas de comida
@@ -40,7 +40,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <summary>
         /// Rectangulo que define las dimensiones del escenario
         /// </summary>
-        public static Rectangle ESCENARIO = new Rectangle(0, 0, 1200, 800);
+        public static Rectangle ESCENARIO = new Rectangle(0, 0, 2000, 1500);
 
         public static float ESCALA;
         /** 
@@ -84,8 +84,8 @@ namespace EvolvingNeuralNetworksXNA
 
             //Tamaño de la ventana:
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 600;
-            graphics.PreferredBackBufferHeight = 400;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
 
             ESCALA = Math.Min(GraphicsDevice.Viewport.Width / (float)ESCENARIO.Width, GraphicsDevice.Viewport.Height / (float)ESCENARIO.Height);
@@ -119,7 +119,7 @@ namespace EvolvingNeuralNetworksXNA
             //Inicializando los jugadores:
             for (int i = 0; i < jugadores.Length; i++)
             {
-                jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Center.X, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
+                jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
                 Components.Add(jugadores[i]); //Con esto se grafican y actualizan automaticamente.
 
                 //jugadores[i].moviendose = true; //Esto se puede quitar, pues la IA controlará este parametro.
@@ -128,7 +128,7 @@ namespace EvolvingNeuralNetworksXNA
             //Inicializando la comida:
             for (int i = 0; i < comidas.Length; i++)
             {
-                comidas[i] = new Comida(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Center.X), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_COMIDA);
+                comidas[i] = new Comida(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_COMIDA);
                 Components.Add(comidas[i]);
             }
 
