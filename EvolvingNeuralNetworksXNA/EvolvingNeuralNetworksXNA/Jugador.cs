@@ -160,8 +160,11 @@ namespace EvolvingNeuralNetworksXNA
 
             foreach (Comida comida in worldGame.comidas)
             {
-                comida.toVector2(out comPos);
-                dist = Math.Min(dist, Vector2.Distance(comPos, posicion));
+                if (comida.Visible)
+                {
+                    comida.toVector2(out comPos);
+                    dist = Math.Min(dist, Vector2.Distance(comPos, posicion));
+                }
             }
 
             return dist;

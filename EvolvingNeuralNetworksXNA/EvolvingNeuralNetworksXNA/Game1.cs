@@ -180,14 +180,14 @@ namespace EvolvingNeuralNetworksXNA
                 //Se verifica para cada jugador si este ha tocado comida:
                 foreach (Jugador jugador in jugadores)
                 {
-                    //Console.WriteLine("Updated {0}", jugador.GetHashCode());
-                    foreach (Comida comida in comidas)
+                    if (jugador.Enabled) //Si esta vivo:
                     {
-                        if (jugador.Enabled) //Si esta vivo:
+                        JugadorVivo = true;
+                    //Console.WriteLine("Updated {0}", jugador.GetHashCode());
+                        foreach (Comida comida in comidas)
                         {
-                            JugadorVivo = true;
                             //Si el jugador entra en contacto con la comida:
-                            if (jugador.probarContacto(comida))
+                            if (comida.Visible && jugador.probarContacto(comida))
                             {
                                 jugador.alimentar(comida.comer());
                             }
