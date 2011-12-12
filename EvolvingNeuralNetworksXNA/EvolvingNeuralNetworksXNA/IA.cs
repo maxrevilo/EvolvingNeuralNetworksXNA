@@ -112,11 +112,12 @@ namespace EvolvingNeuralNetworksXNA
             float a1, a2;
             for (int i = 0; i < jugadores.Length; i++)
             {
-                if (jugadores[i].Enabled)
+                if (jugadores[i].Vivo)
                 {
+                    //Console.WriteLine("IA Updated {0}", jugadores[i].GetHashCode());
                     a1 = jugadores[i].antenaInfo(0); a2 = jugadores[i].antenaInfo(1);
                     inputVector[0] = 10f * (a1-a2); //Se le pasa la informacion de diferencia de distancias
-                    inputVector[1] = (a1+a2) / 10f; //un especie de promedio de distancias
+                    inputVector[1] = (a1 + a2) / 10f; //un especie de promedio de distancias
                     inputVector[2] = 100f * jugadores[i].Llenura - 50f; //La llenura que puede ser + o -
                     outputVector = redes[i].Compute(inputVector);
                     applyNetworkOutput(outputVector, jugadores[i]);
@@ -125,7 +126,6 @@ namespace EvolvingNeuralNetworksXNA
             base.Update(gameTime);
         }
 
-        public double maxExit = 0;
 
         /// <summary>
         /// Aplica la salida de la red neuronal a cada jugador,
@@ -147,7 +147,6 @@ namespace EvolvingNeuralNetworksXNA
                 diffDireccionReal = 0f;
             }
 
-            maxExit = Math.Max(maxExit, outputVector[2]);
             //Enviar las ordenes de la red Neural al jugador.
             j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
         }

@@ -73,7 +73,6 @@ namespace EvolvingNeuralNetworksXNA
         private WorldGame worldGame;
 
         private float[] antenasAng;
-        private Vector2[] antenasPos;
 
         public Jugador(WorldGame game, float X, float Y, float tamano)
             : base(game, X, Y, tamano)
@@ -90,12 +89,6 @@ namespace EvolvingNeuralNetworksXNA
             edad = -1;
 
             antenasAng = new float[]{-45f, 45f};
-
-            antenasPos = new Vector2[antenasAng.Length];
-            for (int i = 0; i < antenasPos.Length; i++)
-            {
-                antenasPos[i] = antenaPosicion(i);
-            }
         }
 
         override public void Update(GameTime gameTime)
@@ -148,7 +141,7 @@ namespace EvolvingNeuralNetworksXNA
         /// <returns>Posicion global</returns>
         public Vector2 antenaPosicion(int antena)
         {
-            float   ang    = MathHelper.ToRadians(antenasAng[antena]) + direccion;
+            float ang = MathHelper.ToRadians(antenasAng[antena]) + direccion;
             Vector2 antPos = new Vector2((float)Math.Cos(ang), (float)Math.Sin(ang)) * 1.6f * this.R;
             return  antPos + toVector2();
         }
@@ -161,7 +154,7 @@ namespace EvolvingNeuralNetworksXNA
         public float antenaInfo(int antena)
         {
             float dist = float.MaxValue;
-            Vector2 posicion = antenasPos[antena];
+            Vector2 posicion = antenaPosicion(antena);
             Vector2 comPos;
 
 

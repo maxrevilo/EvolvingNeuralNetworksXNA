@@ -180,6 +180,7 @@ namespace EvolvingNeuralNetworksXNA
                 //Se verifica para cada jugador si este ha tocado comida:
                 foreach (Jugador jugador in jugadores)
                 {
+                    //Console.WriteLine("Updated {0}", jugador.GetHashCode());
                     foreach (Comida comida in comidas)
                     {
                         if (jugador.Enabled) //Si esta vivo:
