@@ -34,7 +34,7 @@ namespace EvolvingNeuralNetworksXNA
         public float R;
 
 
-        public Posicionable(Game game, float X, float Y, float R) 
+        public Posicionable(Game game, float X, float Y, float R)
             : base(game)
         {
             this.X = X;
@@ -42,7 +42,8 @@ namespace EvolvingNeuralNetworksXNA
             this.R = R;
         }
 
-        public Vector2 toVector2() {
+        public Vector2 toVector2()
+        {
             return pos;
         }
 
@@ -50,7 +51,7 @@ namespace EvolvingNeuralNetworksXNA
         {
             vec = pos;
         }
-        
+
         /// <summary>
         /// Detecta si este Posicionable hace contacto con otro.
         /// </summary>
@@ -60,8 +61,7 @@ namespace EvolvingNeuralNetworksXNA
             float dX = X - otro.X;
             float dY = Y - otro.Y;
             float RR = otro.R + R;
-            return dX*dX + dY*dY <= RR*RR;
+            return dX * dX + dY * dY <= RR * RR;
         }
-
     }
 }

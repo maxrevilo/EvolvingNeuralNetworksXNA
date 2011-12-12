@@ -23,13 +23,12 @@ namespace EvolvingNeuralNetworksXNA
                 for (int j = 0; j < network[i].NeuronsCount; j++)
                     for (int k = 0; k <= network[i][j].InputsCount; k++)
                     {
-                        if (k == 0) 
+                        if (k == 0)
                             network[i][j].Threshold = values[l];
                         else
-                            network[i][j][k-1] = values[l];
+                            network[i][j][k - 1] = values[l];
                         l++;
                     }
         }
-        
     }
 }

@@ -40,7 +40,7 @@ namespace EvolvingNeuralNetworksXNA
         private double[] outputVector;
         private ManualResetEvent[] doneEvents;
 
-        //Campos para la logica de evolucion
+        //Campos para la logica de evolucion.
         private Population poblacion;
         private IFitnessFunction fitnessFunction;
         private IChromosome padre;
@@ -49,9 +49,13 @@ namespace EvolvingNeuralNetworksXNA
         private static IRandomNumberGenerator mutationAdditionGenerator;
         private ISelectionMethod selectionMethod;
 
+        //Este generador aleatorio se usara para generar un seed para los otros generadores aleatorios.
+        private static Random rndSeedGen;
+
         public IA(Game game, int players)
             : base(game)
         {
+            rndSeedGen = new Random();
             this.comidas = null;
             this.jugadores = null;
             this.numWeights = HIDDEN_UNITS0 * (INPUT_UNITS + 1) + HIDDEN_UNITS1 * (HIDDEN_UNITS0 + 1) + OUTPUT_UNITS * (HIDDEN_UNITS1 + 1);
@@ -68,19 +72,18 @@ namespace EvolvingNeuralNetworksXNA
 
             //Se puede jugar con los parametros de los rangos para modificar la evolucion de las redes
             //Tambien se puede modificar el metodo de seleccion.
-            chromosomeGenerator = new UniformGenerator(new Range(-1f, 1f));
-            mutationAdditionGenerator = new UniformGenerator(new Range(-3f, 3f));
-            mutationMultiplierGenerator = new UniformGenerator(new Range(-2f, 2f));
+            chromosomeGenerator = new UniformGenerator(new Range(-10f, 10f), rndSeedGen.Next(-100, 100));
+            mutationAdditionGenerator = new UniformGenerator(new Range(-30f, 30f), rndSeedGen.Next(-100, 100));
+            mutationMultiplierGenerator = new UniformGenerator(new Range(-20f, 20f), rndSeedGen.Next(-100, 100));
             fitnessFunction = new GameFitnessFunction();
             selectionMethod = new EliteSelection();
             padre = new gameChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, numWeights);
             poblacion = new Population(WorldGame.JUGADORES, padre, fitnessFunction, selectionMethod);
-            
         }
 
         //Estas funciones no sirve todavia:
-        public float fitnessAvg() { return (float) poblacion.FitnessAvg; }
-        public float fitnessMax() { return (float) poblacion.FitnessMax; }
+        public float fitnessAvg() { return (float)poblacion.FitnessAvg; }
+        public float fitnessMax() { return (float)poblacion.FitnessMax; }
 
         public void Generation(Jugador[] jugadores, Comida[] comidas)
         {
@@ -92,14 +95,15 @@ namespace EvolvingNeuralNetworksXNA
 
                 poblacion.RunEpoch();
 
-                //Transformar la poblacion actual a redes neuronales controladoras            
-                for (int i = 0; i < poblacion.Size; i++)
-                {
-                    ChromosomeNetworkMapper.ChromosomeToNetwork((gameChromosome)poblacion[i], redes[i]);
-                }
+
+            }
+            //Transformar la poblacion actual a redes neuronales controladoras            
+            for (int i = 0; i < poblacion.Size; i++)
+            {
+                ChromosomeNetworkMapper.ChromosomeToNetwork((gameChromosome)poblacion[i], redes[i]);
             }
 
-            
+
             //Simon: Antes de estas asignaciones tienes las generaciones anteriores apuntadas (o null) para que hagas los calculos necesarios
             this.jugadores = jugadores;
             this.comidas = comidas;
@@ -112,7 +116,7 @@ namespace EvolvingNeuralNetworksXNA
             base.Initialize();
         }
 
-        
+
 
         public override void Update(GameTime gameTime)
         {
@@ -137,7 +141,7 @@ namespace EvolvingNeuralNetworksXNA
             float a1, a2;
             if (jugadores[i].Vivo)
             {
-                a1 = jugadores[i].antenaInfo(0); 
+                a1 = jugadores[i].antenaInfo(0);
                 a2 = jugadores[i].antenaInfo(1);
 
                 inputVector[0] = 10f * (a1 - a2); //Se le pasa la informacion de diferencia de distancias

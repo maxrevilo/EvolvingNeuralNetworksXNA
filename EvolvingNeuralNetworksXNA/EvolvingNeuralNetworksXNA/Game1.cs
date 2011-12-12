@@ -69,7 +69,7 @@ namespace EvolvingNeuralNetworksXNA
 
         //Clase controladora de la IA:
         IA ia;
-        
+
         /// <summary>
         /// Indica cuantos ciclos de simulacion se ejecutan por actualizacion, la cual
         /// generalmente ocurre 60 veces por segundo.
@@ -107,8 +107,8 @@ namespace EvolvingNeuralNetworksXNA
 
         protected override void Initialize()
         {
-            if (jugadores != null)  foreach (Jugador j in jugadores) Components.Remove(j);
-            if (comidas   != null)  foreach (Comida  c in comidas  ) Components.Remove(c);
+            if (jugadores != null) foreach (Jugador j in jugadores) Components.Remove(j);
+            if (comidas != null) foreach (Comida c in comidas) Components.Remove(c);
 
 
             //Al forzar el recolector de basura no importa hacer New aqui:
@@ -141,7 +141,7 @@ namespace EvolvingNeuralNetworksXNA
             //Se fuerza el recolector de basura:
             GC.Collect();
         }
-        
+
         /**
          * Funcion para cargar contenido del HD.
          */
@@ -167,7 +167,7 @@ namespace EvolvingNeuralNetworksXNA
              * 17 milisegundos, esto disminulle la suavidad grafica de movimiento pero mejora el realismo
              * de la simulacion, sobretodo para varios ciclos por actualizacion.
              */
-            GameTime gameTime2 = new GameTime(gameTime.TotalGameTime, new TimeSpan(0, 0, 0, 0, 17 ));
+            GameTime gameTime2 = new GameTime(gameTime.TotalGameTime, new TimeSpan(0, 0, 0, 0, 17));
 
             for (int i = 0; i < ciclosPorActualizacion; i++)
             {
@@ -183,7 +183,7 @@ namespace EvolvingNeuralNetworksXNA
                     if (jugador.Enabled) //Si esta vivo:
                     {
                         JugadorVivo = true;
-                    //Console.WriteLine("Updated {0}", jugador.GetHashCode());
+                        //Console.WriteLine("Updated {0}", jugador.GetHashCode());
                         foreach (Comida comida in comidas)
                         {
                             //Si el jugador entra en contacto con la comida:

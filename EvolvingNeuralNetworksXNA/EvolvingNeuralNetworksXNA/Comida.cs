@@ -20,9 +20,10 @@ namespace EvolvingNeuralNetworksXNA
         public static float CANTIDAD_POR_DEFECTO = 0.3f;
 
         private float cantidad;
-        public float Cantidad { 
+        public float Cantidad
+        {
             get { return cantidad; }
-            set { cantidad = value; Visible = cantidad > 0f; } 
+            set { cantidad = value; Visible = cantidad > 0f; }
         }
 
         public Comida(Game game, float X, float Y, float R)

@@ -17,7 +17,7 @@ namespace EvolvingNeuralNetworksXNA
         /// La llenura con la que se crean los jugadores.
         /// </summary>
         public static float LLENURA_POR_DEFECTO = 0.65f;
-        
+
         /// <summary>
         /// La taza de ambruna con la que se crean los jugadores.
         /// </summary>
@@ -32,7 +32,7 @@ namespace EvolvingNeuralNetworksXNA
         /// Indica si el jugador esta avanzando
         /// </summary>
         public bool moviendose;
-        
+
         /// <summary>
         /// Direccion en la que apunta el jugador.
         /// </summary>
@@ -45,8 +45,8 @@ namespace EvolvingNeuralNetworksXNA
 
         //Cantidad de llenura consumida por segundo de actividad.
         private float tazaDeAmbruna;
-        
-        
+
+
         //Indica si el jugador esta vivo.
         private bool vivo;
         /// <summary>
@@ -88,12 +88,12 @@ namespace EvolvingNeuralNetworksXNA
 
             edad = -1;
 
-            antenasAng = new float[]{-45f, 45f};
+            antenasAng = new float[] { -45f, 45f };
         }
 
         override public void Update(GameTime gameTime)
         {
-            float seg = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            float seg = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (edad < 0) edad = 0;
             else if (Vivo) edad++;
@@ -103,8 +103,8 @@ namespace EvolvingNeuralNetworksXNA
 
             if (moviendose)
             {
-                X += (float) Math.Cos(direccion) * velocidad * seg;
-                Y += (float) Math.Sin(direccion) * velocidad * seg;
+                X += (float)Math.Cos(direccion) * velocidad * seg;
+                Y += (float)Math.Sin(direccion) * velocidad * seg;
             }
         }
 
@@ -112,10 +112,12 @@ namespace EvolvingNeuralNetworksXNA
         /// Aumenta la llenura del jugador
         /// </summary>
         /// <param name="cantidad">Cantidad de llenura a aumentar</param>
-        public void alimentar(float cantidad) {
+        public void alimentar(float cantidad)
+        {
             llenura += cantidad;
 
-            if(llenura > 1f || llenura < 0f) {
+            if (llenura > 1f || llenura < 0f)
+            {
                 Vivo = false;
             }
 
@@ -144,7 +146,7 @@ namespace EvolvingNeuralNetworksXNA
         {
             float ang = MathHelper.ToRadians(antenasAng[antena]) + direccion;
             Vector2 antPos = new Vector2((float)Math.Cos(ang), (float)Math.Sin(ang)) * 1.6f * this.R;
-            return  antPos + toVector2();
+            return antPos + toVector2();
         }
 
         /// <summary>
@@ -190,7 +192,7 @@ namespace EvolvingNeuralNetworksXNA
                 Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[0].X - aR), (int)(ants[0].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
                 Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(ants[1].X - aR), (int)(ants[1].Y - aR), (int)(2 * aR), (int)(2 * aR)), Color.Blue, direccion);
             }
-            
+
             Graphics.ToDrawScaled(Graphics.Circulo, new Rectangle((int)(X - R), (int)(Y - R), (int)(2 * R), (int)(2 * R)), Color.Lerp(Color.Red, Color.Green, llenura), direccion);
         }
     }

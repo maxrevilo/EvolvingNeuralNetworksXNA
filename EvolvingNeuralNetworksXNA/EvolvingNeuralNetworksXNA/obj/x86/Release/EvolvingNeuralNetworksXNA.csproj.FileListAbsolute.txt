@@ -1,11 +1,3 @@
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\Content\Circulo.xnb
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\Content\Font.xnb
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\EvolvingNeuralNetworksXNA.exe
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\EvolvingNeuralNetworksXNA.pdb
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Release\ResolveAssemblyReference.cache
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Release\EvolvingNeuralNetworksXNA.exe
-C:\Users\sroj\Documents\Visual Studio 2010\Projects\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\obj\x86\Release\EvolvingNeuralNetworksXNA.pdb
 E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\Content\Circulo.xnb
 E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\Content\Font.xnb
 E:\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\EvolvingNeuralNetworksXNA\bin\x86\Release\EvolvingNeuralNetworksXNA.exe
