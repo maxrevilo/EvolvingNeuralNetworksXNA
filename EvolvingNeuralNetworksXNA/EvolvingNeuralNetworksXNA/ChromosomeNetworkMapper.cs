@@ -9,12 +9,6 @@ namespace EvolvingNeuralNetworksXNA
 {
     static class ChromosomeNetworkMapper
     {
-
-        public static void NetworkToChromosome(ActivationNetwork network, gameChromosome chromosome)
-        {
-            throw new NotImplementedException();
-        }
-
         public static void ChromosomeToNetwork(gameChromosome chromosome, ActivationNetwork network)
         {
             double[] values = chromosome.Value;

@@ -110,7 +110,6 @@ namespace EvolvingNeuralNetworksXNA
             if (jugadores != null) foreach (Jugador j in jugadores) Components.Remove(j);
             if (comidas != null) foreach (Comida c in comidas) Components.Remove(c);
 
-
             //Al forzar el recolector de basura no importa hacer New aqui:
             rnd = new Random();
             jugadores = new Jugador[JUGADORES];
@@ -120,9 +119,7 @@ namespace EvolvingNeuralNetworksXNA
             for (int i = 0; i < jugadores.Length; i++)
             {
                 jugadores[i] = new Jugador(this, rnd.Next(ESCENARIO.Left, ESCENARIO.Right), rnd.Next(ESCENARIO.Top, ESCENARIO.Bottom), TAMANO_JUGADOR);
-                Components.Add(jugadores[i]); //Con esto se grafican y actualizan automaticamente.
-
-                //jugadores[i].moviendose = true; //Esto se puede quitar, pues la IA controlará este parametro.
+                Components.Add(jugadores[i]); //Con esto se grafican y actualizan automaticamente.                
             }
 
             //Inicializando la comida:
@@ -241,12 +238,11 @@ namespace EvolvingNeuralNetworksXNA
                 base.Draw(gameTime);
 
                 //Se dibuja el HUD:
-                Graphics.ToDraw(font, "Iteraciones: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
+                Graphics.ToDraw(font, "Velocidad: " + ciclosPorActualizacion, new Vector2(10, 10), Color.White);
                 Graphics.ToDraw(font, "Generacion: " + generacion, new Vector2(10, 30), Color.White);
                 Graphics.ToDraw(font, "Fitness Prom: " + ia.fitnessAvg(), new Vector2(10, 50), Color.White);
                 Graphics.ToDraw(font, "Mejor Fitness: " + ia.fitnessMax(), new Vector2(10, 70), Color.White);
             }
-
         }
     }
 }

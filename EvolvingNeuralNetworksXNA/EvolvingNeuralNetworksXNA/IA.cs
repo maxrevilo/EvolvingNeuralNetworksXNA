@@ -19,6 +19,9 @@ namespace EvolvingNeuralNetworksXNA
 {
     public class IA : GameComponent
     {
+        //Indica si se desea control por IA, o movimiento aleatorio.
+        private const bool RANDOM = false;
+
         //Topologia de las redes
         private const int HIDDEN_UNITS0 = 6;
         private const int HIDDEN_UNITS1 = 6;
@@ -52,10 +55,16 @@ namespace EvolvingNeuralNetworksXNA
         //Este generador aleatorio se usara para generar un seed para los otros generadores aleatorios.
         private static Random rndSeedGen;
 
+        //Este generador aleatorio se usara para generar movimiento aleatorio de los jugadores, sin IA.
+        private static Random rndControl;
+        private static Random rndMovControl;
+
         public IA(Game game, int players)
             : base(game)
         {
             rndSeedGen = new Random();
+            rndControl = new Random();
+            rndMovControl = new Random();
             this.comidas = null;
             this.jugadores = null;
             this.numWeights = HIDDEN_UNITS0 * (INPUT_UNITS + 1) + HIDDEN_UNITS1 * (HIDDEN_UNITS0 + 1) + OUTPUT_UNITS * (HIDDEN_UNITS1 + 1);
@@ -68,7 +77,6 @@ namespace EvolvingNeuralNetworksXNA
             outputVector = new double[OUTPUT_UNITS];
             doneEvents = new ManualResetEvent[players];
             for (int i = 0; i < players; i++) doneEvents[i] = new ManualResetEvent(false);
-
 
             //Se puede jugar con los parametros de los rangos para modificar la evolucion de las redes
             //Tambien se puede modificar el metodo de seleccion.
@@ -140,7 +148,6 @@ namespace EvolvingNeuralNetworksXNA
                 outputVector = redes[i].Compute(inputVector);
                 applyNetworkOutput(outputVector, jugadores[i]);
             }
-
             e.Set();
         }
 
@@ -166,7 +173,10 @@ namespace EvolvingNeuralNetworksXNA
                 diffDireccionReal = 0f;
             }
             //Enviar las ordenes de la red Neural al jugador.
-            j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
+            if (!RANDOM)
+                j.controlar(outputVector[2] > MOVEMENT_THRESHOLD, diffDireccionReal);
+            else
+                j.controlar(rndMovControl.NextDouble() > 0d, 2f * (float)rndControl.NextDouble() - 1f);            
         }
     }
 }
